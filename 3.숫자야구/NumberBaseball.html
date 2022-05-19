@@ -1,13 +1,47 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>숫자야구</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
-<div id="root"></div>
-<script src="./dist/app.js"></script>
+<div id="root">
+    <div>{{ result }}</div>
+    <form>
+        <input ref="answer" minlength="4" maxlength="4" v-model="value" >
+        <button type="submit" ref="answer" @submit.prevent="onSubmitForm">입력</button>
+    </form>
+    <div class="result">시도 : {{ tries.length }}</div>
+    <ul>
+        <li v-for="t in tries" >
+            {{ t.try }}
+            {{ t.result }}
+        </li>
+    </ul>
+</div>
+<script>
+    const app = new Vue({
+        el: '#root',
+        data: {
+            tries: [],
+            value: '',
+            result: ''
+        },
+        methods: {
+            onSubmitForm() {
+                this.tries.push({
+                    try: this.value,
+                    result: '홈런'
+                })
+                this.value = ''
+                this.$refs.answer.focus()
+            }
+        }
+    })
+</script>
 </body>
 </html>
