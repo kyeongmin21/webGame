@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>반응속도체크</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<style>
+    .screen {
+        width: 300px;
+        height: 200px;
+        text-align: center;
+        user-select: none;
+    }
+
+    .screen.waiting {
+        background-color: aqua;
+    }
+
+    .screen.ready {
+        background-color: red;
+        color: white;
+    }
+
+    .screen.now {
+        background-color: greenyellow;
+    }
+</style>
+<div id="root">
+    <div class="screen"
+         :class="state"
+         @click="onClickScreen">{{ msg }}
+    </div>
+    <div v-if="result.length">
+        <div>평균 시간 : {{ average }}ms</div>
+        <button @click="resetBtn">리셋</button>
+    </div>
+</div>
+<script>
+    let startTime = 0;
+    let endTime = 0;
+    let timeout = null;
+
+    const app = new Vue({
+        el: '#root',
+        data: {
+            result: [],
+            state: 'waiting',
+            msg: '클릭해서 시작하세요.'
+        },
+        computed: {
+            average() {
+                return this.result.reduce((a, b) => a + b, 0) / this.result.length || 0
+            }
+        },
+        methods: {
+            resetBtn() {
+                this.result = []
+            },
+            onClickScreen() {
+                if (this.state === 'waiting') {
+                    this.state = 'ready'
+                    this.msg = '초록색이 되면 클릭하세요'
+                    timeout = setTimeout(() => {
+                        this.state = 'now'
+                        this.msg = '지금클릭'
+                        startTime = new Date()
+                    }, Math.trunc(Math.random() * 1000) + 2000) // 2-3 초 사이
+
+                } else if (this.state === 'ready') {
+                    clearTimeout(timeout)
+                    this.state = 'waiting'
+                    this.msg = '너무 급하시네요. 초록색이 된 후 클릭하세요.'
+                } else if (this.state === 'now') {
+                    endTime = new Date()
+                    this.state = 'waiting'
+                    this.msg = '클릭해서 시작하세요.'
+                    this.result.push(endTime - startTime)
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
