@@ -6,60 +6,68 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>가위바위보</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
+<style>
+  #computer {
+    width: 142px;
+    height: 200px;
+    background-position: 0 0;
+  }
+</style>
 <body>
-<div id="root">
-  <div id="computer" :style="computedStyleObject"></div>
-  <div>
-    <button @click="onClickButton('바위')">바위</button>
-    <button @click="onClickButton('가위')">가위</button>
-    <button @click="onClickButton('보')">보</button>
+  <div id="root">
+    <div id="computer" :style="computedStyleObject"></div>
+    <div>
+      <button @click="onClickButton('rock')">바위</button>
+      <button @click="onClickButton('scissor')">가위</button>
+      <button @click="onClickButton('paper')">보</button>
+    </div>
+    <div>{{result}}</div>
+    <div>현재 {{score}}점</div>
   </div>
-  <div>{{result}}</div>
-  <div>현재 {{score}}점</div>
-</div>
+
 <script>
   const rspCoords = {
-    바위: '0',
-    가위: '-142px',
-    보: '-284px',
+    paper: '0',
+    scissor: '-142px',
+    rock: '-284px',
   };
   const scores = {
-    가위: 1,
-    바위: 0,
-    보: -1,
-  };
+    scissor: 1,
+    paper: 0,
+    rock: -1,
+  }
   const computerChoice = (imgCoord) => {
     return Object.entries(rspCoords).find(function (v) {
       return v[1] === imgCoord;
     })[0];
-  };
-  let interval = null;
+  }
+  let interval = null
 
   const app = new Vue({
     el: '#root',
     data: {
-      imgCoord: rspCoords.바위,
+      imgCoord: rspCoords.paper,
       result: '',
       score: 0,
     },
     computed: {
       computedStyleObject() {
         return {
-          background: `url(https://en.pimg.jp/023/182/267/1/23182267.jpg) ${this.imgCoord} 0`,
+          background: `url(//en.pimg.jp/023/182/267/1/23182267.jpg) ${this.imgCoord} 0`,
         };
       }
     },
     methods: {
       changeHand() {
         interval = setInterval(() => {
-          if (this.imgCoord === rspCoords.바위) {
-            this.imgCoord = rspCoords.가위;
-          } else if (this.imgCoord === rspCoords.가위) {
-            this.imgCoord = rspCoords.보;
-          } else if (this.imgCoord === rspCoords.보) {
-            this.imgCoord = rspCoords.바위;
+          if (this.imgCoord === rspCoords.paper) {
+            this.imgCoord = rspCoords.scissor;
+          } else if (this.imgCoord === rspCoords.scissor) {
+            this.imgCoord = rspCoords.rock;
+          } else if (this.imgCoord === rspCoords.rock) {
+            this.imgCoord = rspCoords.paper;
           }
         }, 100);
       },
@@ -85,5 +93,6 @@
     }
   })
 </script>
+
 </body>
 </html>
