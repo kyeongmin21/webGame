@@ -38,9 +38,9 @@
     paper: 0,
     rock: -1,
   }
-  const computerChoice = (imgCoord) => {
+  const computerChoice = (imgCord) => {
     return Object.entries(rspCoords).find(function (v) {
-      return v[1] === imgCoord;
+      return v[1] === imgCord;
     })[0];
   }
   let interval = null
@@ -48,33 +48,33 @@
   const app = new Vue({
     el: '#root',
     data: {
-      imgCoord: rspCoords.paper,
+      imgCord: rspCoords.paper,
       result: '',
       score: 0,
     },
     computed: {
       computedStyleObject() {
         return {
-          background: `url(//en.pimg.jp/023/182/267/1/23182267.jpg) ${this.imgCoord} 0`,
+          background: `url(//en.pimg.jp/023/182/267/1/23182267.jpg) ${this.imgCord} 0`,
         };
       }
     },
     methods: {
       changeHand() {
         interval = setInterval(() => {
-          if (this.imgCoord === rspCoords.paper) {
-            this.imgCoord = rspCoords.scissor;
-          } else if (this.imgCoord === rspCoords.scissor) {
-            this.imgCoord = rspCoords.rock;
-          } else if (this.imgCoord === rspCoords.rock) {
-            this.imgCoord = rspCoords.paper;
+          if (this.imgCord === rspCoords.paper) {
+            this.imgCord = rspCoords.scissor;
+          } else if (this.imgCord === rspCoords.scissor) {
+            this.imgCord = rspCoords.rock;
+          } else if (this.imgCord === rspCoords.rock) {
+            this.imgCord = rspCoords.paper;
           }
         }, 100);
       },
       onClickButton(choice) {
         clearInterval(interval);
         const myScore = scores[choice];
-        const cpuScore = scores[computerChoice(this.imgCoord)];
+        const cpuScore = scores[computerChoice(this.imgCord)];
         const diff = myScore - cpuScore;
         if (diff === 0) {
           this.result = '비겼습니다.';
