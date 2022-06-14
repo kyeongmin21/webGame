@@ -1,12 +1,8 @@
 <template>
   <div>
-    <h3>당첨 숫자</h3>
-    <div id="result">
-      <LottoBall v-for="ball in winBalls"/>
+    <div class="ball" :style="{ background }">
+      {{ number }}
     </div>
-    <h3>보너스</h3>
-    <LottoBall v-if="bonus"/>
-    <button v-if="redo">한번더</button>
   </div>
 </template>
 
@@ -15,11 +11,14 @@ export default {
   name: 'LottoBall',
   components: {},
   data() {
+    let background;
     return {
-      winBalls: [],
-      bonus: null,
-      redo: false,
-
+      background,
+    }
+  },
+  props: {
+    number: {
+      type: Number
     }
   },
   computed: {},
@@ -29,5 +28,15 @@ export default {
 </script>
 
 <style>
-
+.ball {
+  display: inline-block;
+  border: 1px solid black;
+  border-radius: 20px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 20px;
+  text-align: center;
+  margin-right: 20px;
+}
 </style>
